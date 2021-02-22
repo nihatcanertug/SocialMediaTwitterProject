@@ -2,17 +2,17 @@
 
 
 
-1. SocialMediaTwitterProject adında bir Blank Solution açılır.
+1. SocialMediaTwitterProject adinda bir Blank Solution aÃ§ilir.
 
-2.1 DDD yapısına uygun  ilk olarak SocialMediaTwitterProject.Domain adında Class library (.NetCore)  Projesi açılır.
+2.1 DDD yapÃ½sÃ½na uygun  ilk olarak SocialMediaTwitterProject.Domain adÃ½nda Class library (.NetCore)  Projesi aÃ§Ã½lÃ½r.
 
-	2.2. Enums,Entities,Repositories ve UnitOfWork klasörleri açılır.
+	2.2. Enums,Entities,Repositories ve UnitOfWork klasÃ¶rleri aÃ§Ã½lÃ½r.
 
-	2.3. Enums klasörünün içine Status sınıfı eklenir.
+	2.3. Enums klasÃ¶rÃ¼nÃ¼n iÃ§ine Status sÃ½nÃ½fÃ½ eklenir.
 
 		public enum Status { Active = 1, Modified = 2, Passive = 3 }
 
-	2.4. Entities klasörünün içine Concrete ve Interface klasörleri açılır ve interface'e IBaseEntity interface'i eklenir.
+	2.4. Entities klasÃ¶rÃ¼nÃ¼n iÃ§ine Concrete ve Interface klasÃ¶rleri aÃ§Ã½lÃ½r ve interface'e IBaseEntity interface'i eklenir.
 
 	 public interface IBaseEntity
     {
@@ -22,7 +22,7 @@
         Status Status { get; set; }
     }
 
-    2.5. Concrete klasörü açılır ve AppRole isminde bir sınıf açılarak kalıtım olarak IdentityRole sınıfı verilir.Bunun için usinglere Microsoft.AspNetCore.Identity paketi yüklenir.Son olarak IBaseEntity kalıtım verilerek bazı propertylere Encapsulation işlemi gerçekleştirilir.
+    2.5. Concrete klasÃ¶rÃ¼ aÃ§Ã½lÃ½r ve AppRole isminde bir sÃ½nÃ½f aÃ§Ã½larak kalÃ½tÃ½m olarak IdentityRole sÃ½nÃ½fÃ½ verilir.Bunun iÃ§in usinglere Microsoft.AspNetCore.Identity paketi yÃ¼klenir.Son olarak IBaseEntity kalÃ½tÃ½m verilerek bazÃ½ propertylere Encapsulation iÃ¾lemi gerÃ§ekleÃ¾tirilir.
 
      public class AppRole:IdentityRole<int>,IBaseEntity
     {
@@ -33,11 +33,11 @@
         private Status _status = Status.Active;
         public Status Status { get => _status; set => _status = value; }
     }
-    2.6. Sırasıyla AppUser,Follow,Like,Mention,Share,Tweet varlık sınıfları Concrete klasörüne eklenir.
+    2.6. SÃ½rasÃ½yla AppUser,Follow,Like,Mention,Share,Tweet varlÃ½k sÃ½nÃ½flarÃ½ Concrete klasÃ¶rÃ¼ne eklenir.
 
-    2.7. Repositories klasörüne BaseRepo ve EntityTypeRepo adında 2 klasör açılır ve Base reponun içine  bütün CRUD operasyonlarında kullanacağımız method'ları yazacağımız IRepository interface'ini açıyoruz.
+    2.7. Repositories klasÃ¶rÃ¼ne BaseRepo ve EntityTypeRepo adÃ½nda 2 klasÃ¶r aÃ§Ã½lÃ½r ve Base reponun iÃ§ine  bÃ¼tÃ¼n CRUD operasyonlarÃ½nda kullanacaÃ°Ã½mÃ½z method'larÃ½ yazacaÃ°Ã½mÃ½z IRepository interface'ini aÃ§Ã½yoruz.
 
-    public interface IRepository<T>where T : class,IBaseEntity //diğer interfacelere kalıtım vericeğimiz için T type geçiyoruz.
+    public interface IRepository<T>where T : class,IBaseEntity //diÃ°er interfacelere kalÃ½tÃ½m vericeÃ°imiz iÃ§in T type geÃ§iyoruz.
     {
         Task<List<T>> GetAll();
         Task<List<T>> Get(Expression<Func<T,bool>>expression);
@@ -63,15 +63,15 @@
             int pageIndex = 1,
             int pageSize = 3);
     }
-    2.8. EntityTypeRepo klasörü açmıştık DIP gereği varlıkların interfacelerini açıcaz ve T type olarak belirlediğimiz için Concrete'leri vereceğiz böylece Bağımlılığı tersine döndürmüş olacağız.
+    2.8. EntityTypeRepo klasÃ¶rÃ¼ aÃ§mÃ½Ã¾tÃ½k DIP gereÃ°i varlÃ½klarÃ½n interfacelerini aÃ§Ã½caz ve T type olarak belirlediÃ°imiz iÃ§in Concrete'leri vereceÃ°iz bÃ¶ylece BaÃ°Ã½mlÃ½lÃ½Ã°Ã½ tersine dÃ¶ndÃ¼rmÃ¼Ã¾ olacaÃ°Ã½z.
 
     public interface IAppUserRepository : IRepository<AppUser> { }
 
-    2.9. UnitOfWork klasörü açılır ve içine IUnitOfWork interface'i açılır.Amacımız içerisine bu projede UnitOfWork pattern'ına dahil etmek istediğimiz repository'leri yazıcağız.
+    2.9. UnitOfWork klasÃ¶rÃ¼ aÃ§Ã½lÃ½r ve iÃ§ine IUnitOfWork interface'i aÃ§Ã½lÃ½r.AmacÃ½mÃ½z iÃ§erisine bu projede UnitOfWork pattern'Ã½na dahil etmek istediÃ°imiz repository'leri yazÃ½caÃ°Ã½z.
 
      public interface IUnitOfWork: IAsyncDisposable
     {
-        //Repository'lerde açtığımız ve kullanmak istediğimiz interfaceleri ekliyoruz.
+        //Repository'lerde aÃ§tÃ½Ã°Ã½mÃ½z ve kullanmak istediÃ°imiz interfaceleri ekliyoruz.
         IAppUserRepository AppUserRepository { get; }
         IFollowRepository FollowRepository { get; }
         ILikeRepository LikeRepository { get; }
@@ -79,15 +79,15 @@
         IShareRepository ShareRepository { get; }
         ITweetRepository TweetRepository { get; }
 
-        Task Commit(); //Başarılı bir işlemin sonucunda çalıştırılır.İşlemin başlamasından itibaren tüm değişikliklerin veri tabanına uygulanmasını temin eder.
-        Task ExecuteSqlRaw(string sql, params object[] parameters); //Mevcut sql sorgularımızı doğrudan veri tabanında yürütmek için kullanılan bir method.
+        Task Commit(); //BaÃ¾arÃ½lÃ½ bir iÃ¾lemin sonucunda Ã§alÃ½Ã¾tÃ½rÃ½lÃ½r.ÃÃ¾lemin baÃ¾lamasÃ½ndan itibaren tÃ¼m deÃ°iÃ¾ikliklerin veri tabanÃ½na uygulanmasÃ½nÃ½ temin eder.
+        Task ExecuteSqlRaw(string sql, params object[] parameters); //Mevcut sql sorgularÃ½mÃ½zÃ½ doÃ°rudan veri tabanÃ½nda yÃ¼rÃ¼tmek iÃ§in kullanÃ½lan bir method.
     }
 
-3. DDD yapısına uygun ikinci olarak SocialMediaTwitterProject.Infrastructure adında Class library (.NetCore)  Projesi açılır.
+3. DDD yapÃ½sÃ½na uygun ikinci olarak SocialMediaTwitterProject.Infrastructure adÃ½nda Class library (.NetCore)  Projesi aÃ§Ã½lÃ½r.
    
-   3.1. Sırasıyla Context,Mapping,Repositories ve UnitOfWork klasörleri açılır.
+   3.1. SÃ½rasÃ½yla Context,Mapping,Repositories ve UnitOfWork klasÃ¶rleri aÃ§Ã½lÃ½r.
 
-   3.2. Mapping klasörünün içine Abstract ve Concrete klasörleri açılır ve Abstract'a BaseMap sınıfı eklenir.
+   3.2. Mapping klasÃ¶rÃ¼nÃ¼n iÃ§ine Abstract ve Concrete klasÃ¶rleri aÃ§Ã½lÃ½r ve Abstract'a BaseMap sÃ½nÃ½fÃ½ eklenir.
 
     public abstract class BaseMap<T> : IEntityTypeConfiguration<T> where T : class, IBaseEntity
     {
@@ -100,7 +100,7 @@
         }
     }
 
-    3.3. Concrete sınıfına varlıkların hepsinin map'ini class olarak ekledik ve BaseMap'den kalıtım verdik.
+    3.3. Concrete sÃ½nÃ½fÃ½na varlÃ½klarÃ½n hepsinin map'ini class olarak ekledik ve BaseMap'den kalÃ½tÃ½m verdik.
 
     public class AppUserMap : BaseMap<AppUser>
     {
@@ -124,7 +124,7 @@
         }
     }
 
-    3.4. Context klasörüne ApplicationDbContext sınıfı açılır.
+    3.4. Context klasÃ¶rÃ¼ne ApplicationDbContext sÃ½nÃ½fÃ½ aÃ§Ã½lÃ½r.
 
      public class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, int>
     {
@@ -150,7 +150,7 @@
             base.OnModelCreating(builder);
         }
 
-        3.5. Domain katmanında interfaceler içerisinde tanımlanmış repository'ler burada concrete edilir.BaseRepo ve EntityTypeRepo adında 2 klasör açılır ve içlerine repository class'ları eklenir.BaseRepository diğer concrete sınıflara kalıtım vericeği için T type olarak eklenir.
+        3.5. Domain katmanÃ½nda interfaceler iÃ§erisinde tanÃ½mlanmÃ½Ã¾ repository'ler burada concrete edilir.BaseRepo ve EntityTypeRepo adÃ½nda 2 klasÃ¶r aÃ§Ã½lÃ½r ve iÃ§lerine repository class'larÃ½ eklenir.BaseRepository diÃ°er concrete sÃ½nÃ½flara kalÃ½tÃ½m vericeÃ°i iÃ§in T type olarak eklenir.
 
          public abstract class BaseRepository<T> : IRepository<T> where T : class, IBaseEntity
     {
@@ -181,10 +181,10 @@
                                                                       Expression<Func<T, bool>> expression = null,
                                                                       Func<IQueryable<T>, IOrderedQueryable<T>> orderby = null,
                                                                       Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
-                                                                      bool disableTracing = true)//varlık üzerindeki değişikliklere bakıp savechanges() yolluyoruz.
+                                                                      bool disableTracing = true)//varlÃ½k Ã¼zerindeki deÃ°iÃ¾ikliklere bakÃ½p savechanges() yolluyoruz.
         {
-            IQueryable<T> query = _table; //ilk olarak bana gelecek tabloyu IQueryable<T> ye atıyoruz.
-            if (disableTracing) query = query.AsNoTracking();//Filtreleme yapıcağız,sadece get işlemi olacağı için tracking'i kapattık.
+            IQueryable<T> query = _table; //ilk olarak bana gelecek tabloyu IQueryable<T> ye atÃ½yoruz.
+            if (disableTracing) query = query.AsNoTracking();//Filtreleme yapÃ½caÃ°Ã½z,sadece get iÃ¾lemi olacaÃ°Ã½ iÃ§in tracking'i kapattÃ½k.
             if (include != null) query = include(query);//include null degilse eklenicek tabloyu ekliyoruz.
             if (expression != null) query = query.Where(expression);
             if (orderby != null) return await orderby(query).Select(selector).FirstOrDefaultAsync();
@@ -201,25 +201,25 @@
         {
             IQueryable<T> query = _table;
             if (disableTracing) query = query.AsNoTracking(); //https://docs.microsoft.com/en-us/ef/core/querying/tracking
-            //AsNoTracking; Entity Framework tarafından uygulamaların performansını optimize etmemize yardımcı olmak için geliştirilmiş bir fonksiyondur. İşlevsel olarak veritabanından sorgu neticesinde elde edilen nesnelerin takip mekanizması ilgili fonksiyon tarafından kırılarak, sistem tarafından izlenmelerine son verilmesini sağlamakta ve böylece tüm verisel varlıkların ekstradan işlenme yahut lüzumsuz depolanma süreçlerine maliyet ayrılmamaktadır.
-            if (include != null) query = include(query);//sorguya dahil olacak tabloların eklemesi için (eager loading)
-            if (expression != null) query = query.Where(expression); // blog projesinde kullandığımız esnek fileteleme mekanizması
-            if (orderby != null) return await orderby(query).Select(selector).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync(); //sıralama kriteri var ve ona göre gird oluşturulacaktır.
-            else return await query.Select(selector).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();//bir sıralama kriteri yoktur
+            //AsNoTracking; Entity Framework tarafÃ½ndan uygulamalarÃ½n performansÃ½nÃ½ optimize etmemize yardÃ½mcÃ½ olmak iÃ§in geliÃ¾tirilmiÃ¾ bir fonksiyondur. ÃÃ¾levsel olarak veritabanÃ½ndan sorgu neticesinde elde edilen nesnelerin takip mekanizmasÃ½ ilgili fonksiyon tarafÃ½ndan kÃ½rÃ½larak, sistem tarafÃ½ndan izlenmelerine son verilmesini saÃ°lamakta ve bÃ¶ylece tÃ¼m verisel varlÃ½klarÃ½n ekstradan iÃ¾lenme yahut lÃ¼zumsuz depolanma sÃ¼reÃ§lerine maliyet ayrÃ½lmamaktadÃ½r.
+            if (include != null) query = include(query);//sorguya dahil olacak tablolarÃ½n eklemesi iÃ§in (eager loading)
+            if (expression != null) query = query.Where(expression); // blog projesinde kullandÃ½Ã°Ã½mÃ½z esnek fileteleme mekanizmasÃ½
+            if (orderby != null) return await orderby(query).Select(selector).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync(); //sÃ½ralama kriteri var ve ona gÃ¶re gird oluÃ¾turulacaktÃ½r.
+            else return await query.Select(selector).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();//bir sÃ½ralama kriteri yoktur
         }
 
         public void Update(T entity) => _context.Entry(entity).State = EntityState.Modified;
 
     }
 
-    3.6. EntityTypeRepo klasörüne Concrete repository'ler eklenir ve interfaceleri Baserepository ile birlikte kalıtım olarak eklenir.
+    3.6. EntityTypeRepo klasÃ¶rÃ¼ne Concrete repository'ler eklenir ve interfaceleri Baserepository ile birlikte kalÃ½tÃ½m olarak eklenir.
 
      public class AppUserRepository:BaseRepository<AppUser>,IAppUserRepository
     {
         public AppUserRepository(ApplicationDbContext context):base(context){}
     }
 
-    3.7. UnitOfWork klasörü açılır. Domain katmanında arayüz olarak tanımlanmış IUnitOfWork.cs sınıfı burada concrete edilir.
+    3.7. UnitOfWork klasÃ¶rÃ¼ aÃ§Ã½lÃ½r. Domain katmanÃ½nda arayÃ¼z olarak tanÃ½mlanmÃ½Ã¾ IUnitOfWork.cs sÃ½nÃ½fÃ½ burada concrete edilir.
 
      public class UnitOfWork : IUnitOfWork
     {
@@ -269,7 +269,7 @@
             {
                 isDisposing = true;
                 await DisposeAsync(true);
-                GC.SuppressFinalize(this); //Nesnemizin tamamıyla temizlenmesini sağlayacak. (https://stackoverflow.com/questions/151051/when-should-i-use-gc-suppressfinalize)
+                GC.SuppressFinalize(this); //Nesnemizin tamamÃ½yla temizlenmesini saÃ°layacak. (https://stackoverflow.com/questions/151051/when-should-i-use-gc-suppressfinalize)
             }
         }
 
@@ -279,13 +279,13 @@
         }
     }
 
-    4.   DDD yapısına uygun  üçüncü olarak SocialMediaTwitterProject.Application adında Class Library (.Core) Projesi açılır.
+    4.   DDD yapÃ½sÃ½na uygun  Ã¼Ã§Ã¼ncÃ¼ olarak SocialMediaTwitterProject.Application adÃ½nda Class Library (.Core) Projesi aÃ§Ã½lÃ½r.
 
-        4.1. Models klasörü açılır.Bu klasörün içine Data Transfer Objelerimiz ve View Models saklayacağız.
+        4.1. Models klasÃ¶rÃ¼ aÃ§Ã½lÃ½r.Bu klasÃ¶rÃ¼n iÃ§ine Data Transfer Objelerimiz ve View Models saklayacaÃ°Ã½z.
 
-        4.2. DTOs klasörü açılır ve içine DTO classları eklenir.
+        4.2. DTOs klasÃ¶rÃ¼ aÃ§Ã½lÃ½r ve iÃ§ine DTO classlarÃ½ eklenir.
 
-        public class AddMentionDTO //Business işlerimiz için DTO'lar oluşturuyoruz.
+        public class AddMentionDTO //Business iÃ¾lerimiz iÃ§in DTO'lar oluÃ¾turuyoruz.
     {
         public int Id { get; set; }
         public string Text { get; set; }
@@ -296,7 +296,7 @@
 
      public class EditProfileDTO
     {
-        //Business Domain ihtiyaçlarımıza göre hazırladığımız veri transfer objelerimiz ef öğrenmeye başladığımız ilk günden beri kullandığımız attribute bazında şartlar içerebilirler. Eski projelerimizde örneğin CMS projesinde bir prototype hem entity hemde DTO gibi kullanıyorduk.
+        //Business Domain ihtiyaÃ§larÃ½mÃ½za gÃ¶re hazÃ½rladÃ½Ã°Ã½mÃ½z veri transfer objelerimiz ef Ã¶Ã°renmeye baÃ¾ladÃ½Ã°Ã½mÃ½z ilk gÃ¼nden beri kullandÃ½Ã°Ã½mÃ½z attribute bazÃ½nda Ã¾artlar iÃ§erebilirler. Eski projelerimizde Ã¶rneÃ°in CMS projesinde bir prototype hem entity hemde DTO gibi kullanÃ½yorduk.
         public int Id { get; set; }
         [Required(ErrorMessage = "You must to type into name")]
         public string Name { get; set; }
@@ -322,7 +322,7 @@
     {
         public int AppUserId { get; set; }
         public int TweetId { get; set; }
-        public bool isExsist { get; set; }  //Bir daha like'layamadığı için önceden like atıp atmadığını kontrol ediyoruz.
+        public bool isExsist { get; set; }  //Bir daha like'layamadÃ½Ã°Ã½ iÃ§in Ã¶nceden like atÃ½p atmadÃ½Ã°Ã½nÃ½ kontrol ediyoruz.
     }
 
      public class LoginDTO
@@ -344,7 +344,7 @@
         public string ImagePath { get; set; }
     }
 
-        4.3. Mapper klasörü açılır.Mapping sınıfı açılır. Bu sınıf Profile.cs sınıfından miras alır. Lakin bu sınıftan yararlanamak için aşağıdaki "AutoMapper" paketini yüklenmeniz gerekmektedir.AutoMapper & AutoMapper.Extensions.Microsoft.DependencyInjection paketleri yüklenilir.
+        4.3. Mapper klasÃ¶rÃ¼ aÃ§Ã½lÃ½r.Mapping sÃ½nÃ½fÃ½ aÃ§Ã½lÃ½r. Bu sÃ½nÃ½f Profile.cs sÃ½nÃ½fÃ½ndan miras alÃ½r. Lakin bu sÃ½nÃ½ftan yararlanamak iÃ§in aÃ¾aÃ°Ã½daki "AutoMapper" paketini yÃ¼klenmeniz gerekmektedir.AutoMapper & AutoMapper.Extensions.Microsoft.DependencyInjection paketleri yÃ¼klenilir.
 
         public Mapping()
         {
@@ -358,7 +358,7 @@
             CreateMap<Mention, AddMentionDTO>().ReverseMap();
         }
 
-        4.4 IoC klasörü açılır ve içine DependencyInjection sınıfı eklenir.Projedeki bağımlı sınıflar burada register ve resolve edilir. Burada built-in container içerisinde bu conrainer'in bize verdiği yapılar ile register ve resolve işlemlerimiz gerçekleştiricez.
+        4.4 IoC klasÃ¶rÃ¼ aÃ§Ã½lÃ½r ve iÃ§ine DependencyInjection sÃ½nÃ½fÃ½ eklenir.Projedeki baÃ°Ã½mlÃ½ sÃ½nÃ½flar burada register ve resolve edilir. Burada built-in container iÃ§erisinde bu conrainer'in bize verdiÃ°i yapÃ½lar ile register ve resolve iÃ¾lemlerimiz gerÃ§ekleÃ¾tiricez.
 
          public static class DependencyInjection
     {
@@ -375,7 +375,7 @@
             services.AddScoped<IMentionService, MentionService>();
             services.AddScoped<ITweetService, ITweetService>();
 
-            //"AddIdentity" sınıfı için Microsoft.AspNetCore.Identity paketi indirilir.
+            //"AddIdentity" sÃ½nÃ½fÃ½ iÃ§in Microsoft.AspNetCore.Identity paketi indirilir.
             services.AddIdentity<AppUser, AppRole>(x=> {
                 x.SignIn.RequireConfirmedAccount = false;
                 x.SignIn.RequireConfirmedEmail = false;
@@ -392,9 +392,9 @@
         }
     }
 
-        4.5. Services klasörü açılır.
+        4.5. Services klasÃ¶rÃ¼ aÃ§Ã½lÃ½r.
 
-        4.6. Services => Interfaces klasörü açılır. UI katmanında kullanılmak üzere işlerimizi karşılayacak servis arayüzleri oluşturulur.
+        4.6. Services => Interfaces klasÃ¶rÃ¼ aÃ§Ã½lÃ½r. UI katmanÃ½nda kullanÃ½lmak Ã¼zere iÃ¾lerimizi karÃ¾Ã½layacak servis arayÃ¼zleri oluÃ¾turulur.
 
          public interface IAppUserService
     {
@@ -413,7 +413,7 @@
         Task<List<FollowListVM>> UsersFollowings(int id, int pageIndex);
     }
 
-	    4.7. Services => Concrete klasörü açılır. Oluşturulan servisler içerisindeki methodlara yetenekleri kazandırılır.
+	    4.7. Services => Concrete klasÃ¶rÃ¼ aÃ§Ã½lÃ½r. OluÃ¾turulan servisler iÃ§erisindeki methodlara yetenekleri kazandÃ½rÃ½lÃ½r.
 
          public class AppUserService : IAppUserService
     {
@@ -577,7 +577,7 @@
         }
     }
 
-    4.7. Extensions klasörünün içine  ClaimsPrincipalExtensions adında bir sınıf açılır ve kullanıcıdan alınan bilgilerin belirli şartlara uyması sağlanır.
+    4.7. Extensions klasÃ¶rÃ¼nÃ¼n iÃ§ine  ClaimsPrincipalExtensions adÃ½nda bir sÃ½nÃ½f aÃ§Ã½lÃ½r ve kullanÃ½cÃ½dan alÃ½nan bilgilerin belirli Ã¾artlara uymasÃ½ saÃ°lanÃ½r.
 
     public static class ClaimsPrincipalExtensions
     {
@@ -595,9 +595,9 @@
         }
     }
 
-    4.8. Validations klasörü açılır.LoginValidation,RegisterValidation,TweetValidation sınıfları açılarak kurallar yazılır.
+    4.8. Validations klasÃ¶rÃ¼ aÃ§Ã½lÃ½r.LoginValidation,RegisterValidation,TweetValidation sÃ½nÃ½flarÃ½ aÃ§Ã½larak kurallar yazÃ½lÃ½r.
    
-        public class LoginValidation : AbstractValidator<LoginDTO>  //Validation olarak kullanabilmek için AbstractValidator sınıfını kalıtım olarak verdik.
+        public class LoginValidation : AbstractValidator<LoginDTO>  //Validation olarak kullanabilmek iÃ§in AbstractValidator sÃ½nÃ½fÃ½nÃ½ kalÃ½tÃ½m olarak verdik.
     {
         public LoginValidation()
         {
@@ -624,7 +624,7 @@
 
     }
 
-    4.9. IoC container klasörümüzdeki DependencyInjection sınıfına yazdığımız validationları Resolve ediyoruz.
+    4.9. IoC container klasÃ¶rÃ¼mÃ¼zdeki DependencyInjection sÃ½nÃ½fÃ½na yazdÃ½Ã°Ã½mÃ½z validationlarÃ½ Resolve ediyoruz.
        
        //Validation Resolver
             services.AddTransient<IValidator<RegisterDTO>, RegisterValidation>();
@@ -632,27 +632,27 @@
             services.AddTransient<IValidator<AddTweetDTO>, TweetValidation>();
 
 
-    5. DDD yapısına uygun  dördünü ve son olarak SocialMediaTwitterProject.Presentation adında Asp .Net Core Web Application projesi açılır.
+    5. DDD yapÃ½sÃ½na uygun  dÃ¶rdÃ¼nÃ¼ ve son olarak SocialMediaTwitterProject.Presentation adÃ½nda Asp .Net Core Web Application projesi aÃ§Ã½lÃ½r.
 
-    5.1. Aşağıdaki katmanlar Presentation katmanına referance olarak verilir.
+    5.1. AÃ¾aÃ°Ã½daki katmanlar Presentation katmanÃ½na referance olarak verilir.
 
 		5.1.1. SocialMediaProject.Infrastructure
 
 		5.1.2. SocialMediaProject.Application
 
-	5.2. Aşağıdaki paketler yüklenir.
+	5.2. AÃ¾aÃ°Ã½daki paketler yÃ¼klenir.
 
 		5.2.1. Microsoft.EntityFrameworkCore.SqlServer
 
-	5.3. Startup.cs => ConfigureService() methoduna bağımlılığa neden olacak sınıflar register edilir.
+	5.3. Startup.cs => ConfigureService() methoduna baÃ°Ã½mlÃ½lÃ½Ã°a neden olacak sÃ½nÃ½flar register edilir.
 
-		5.3.1. Application katmanındaki Register_ResolveService.cs eklenir.
+		5.3.1. Application katmanÃ½ndaki Register_ResolveService.cs eklenir.
 
-		5.3.2. ApplicationDbContext.cs sınıfı register edilir.
+		5.3.2. ApplicationDbContext.cs sÃ½nÃ½fÃ½ register edilir.
 
-	5.4. appsettings.json dosyasına "ConnectionString" yazılır.
+	5.4. appsettings.json dosyasÃ½na "ConnectionString" yazÃ½lÃ½r.
 
-    5.5. Third Party (Ioc) Containerlardan biri olan AutofacContainer isimli bir klasör açılır.Module sınıfı kalıtım verilerek özellikler kullanıma hazır hale getirilir.Son olarak Autofac(6.1.0) paketi yüklenir.
+    5.5. Third Party (Ioc) Containerlardan biri olan AutofacContainer isimli bir klasÃ¶r aÃ§Ã½lÃ½r.Module sÃ½nÃ½fÃ½ kalÃ½tÃ½m verilerek Ã¶zellikler kullanÃ½ma hazÃ½r hale getirilir.Son olarak Autofac(6.1.0) paketi yÃ¼klenir.
 
      public class AutofacContainer:Module
     {
@@ -671,7 +671,7 @@
         }
     }
 
-    5.6. Oluşturduğumuz bu container'ı kullanabilmek için program.cs de çağırıyoruz.
+    5.6. OluÃ¾turduÃ°umuz bu container'Ã½ kullanabilmek iÃ§in program.cs de Ã§aÃ°Ã½rÃ½yoruz.
 
      public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
@@ -685,9 +685,9 @@
                 webBuilder.UseStartup<Startup>();
             });
 
-	5.7. Migration işlemi yapılır.Öncellikle package manager console açılarak Add-Migration InitialCreate ve ardından Update-Database yazılıp migration işlemi tamamlanır.
+	5.7. Migration iÃ¾lemi yapÃ½lÃ½r.Ã–ncellikle package manager console aÃ§Ã½larak Add-Migration InitialCreate ve ardÃ½ndan Update-Database yazÃ½lÃ½p migration iÃ¾lemi tamamlanÃ½r.
 
-    5.8. AccountController'da Register,Login,LogOut,EditProfile işlemleri için asenkron olarak metodlarını yazdık daha sonra actionların Viewlarını ekledik.
+    5.8. AccountController'da Register,Login,LogOut,EditProfile iÃ¾lemleri iÃ§in asenkron olarak metodlarÃ½nÃ½ yazdÃ½k daha sonra actionlarÃ½n ViewlarÃ½nÃ½ ekledik.
 
       public class AccountController : Controller
     {
@@ -785,7 +785,7 @@
         #endregion
      }
 
-     5.9. Login işlemi için view kısmını ekledik.
+     5.9. Login iÃ¾lemi iÃ§in view kÃ½smÃ½nÃ½ ekledik.
 
      @model EditProfileDTO
 @{
@@ -841,7 +841,7 @@
 </div>
 
 
-     5.10. Views klasörünün içine ViewComponents isminde klasör açılır ve ProfileSummary adında bir sınıf açılıp ViewComponent kalıtım olarak verilir ve GetByUserName methodu ile gelen string tipindeki userName nesnesinin özelliklerini kullanabiliyoruz.
+     5.10. Views klasÃ¶rÃ¼nÃ¼n iÃ§ine ViewComponents isminde klasÃ¶r aÃ§Ã½lÃ½r ve ProfileSummary adÃ½nda bir sÃ½nÃ½f aÃ§Ã½lÃ½p ViewComponent kalÃ½tÃ½m olarak verilir ve GetByUserName methodu ile gelen string tipindeki userName nesnesinin Ã¶zelliklerini kullanabiliyoruz.
         
      public class ProfileSummary:ViewComponent
     {
@@ -852,7 +852,7 @@
         public async Task<IViewComponentResult> InvokeAsync(string userName) => View(await _appUserService.GetByUserName(userName));
     }
 
-    5.11. Models klasörüne ViewComponents adında klasör açılır ve AddTweet,FollowUser ve ProfileSummary adında sınıflar açılır ve ViewComponent sınıfı kalıtım verilerek özellikler kullanıma hazır hale getirilir.
+    5.11. Models klasÃ¶rÃ¼ne ViewComponents adÃ½nda klasÃ¶r aÃ§Ã½lÃ½r ve AddTweet,FollowUser ve ProfileSummary adÃ½nda sÃ½nÃ½flar aÃ§Ã½lÃ½r ve ViewComponent sÃ½nÃ½fÃ½ kalÃ½tÃ½m verilerek Ã¶zellikler kullanÃ½ma hazÃ½r hale getirilir.
 
     public class AddTweet : ViewComponent
     {
@@ -903,7 +903,7 @@
         public async Task<IViewComponentResult> InvokeAsync(string userName) => View(await _appUserService.GetByUserName(userName));
     }
 
-    5.12. Daha sonra Shared->Components altında ViewComponentlerin Default adında Viewları eklenir.
+    5.12. Daha sonra Shared->Components altÃ½nda ViewComponentlerin Default adÃ½nda ViewlarÃ½ eklenir.
   
 @model AddTweetDTO
 
@@ -984,7 +984,7 @@
 </script>
 
 
-    5.13. Shared klasörüne partial Viewlar eklenir.
+    5.13. Shared klasÃ¶rÃ¼ne partial Viewlar eklenir.
 
     
 @using Microsoft.AspNetCore.Identity
@@ -1053,7 +1053,7 @@
 
 
 
-    5.14. Controllers klasörüne ProfileController adında bir Controller açılır ve kişinin profili hakkında actionlar yazılır.
+    5.14. Controllers klasÃ¶rÃ¼ne ProfileController adÃ½nda bir Controller aÃ§Ã½lÃ½r ve kiÃ¾inin profili hakkÃ½nda actionlar yazÃ½lÃ½r.
 
     public class ProfileController : Controller
     {
@@ -1116,7 +1116,7 @@
         }
     }
 
-    5.15. Yazdığımız bu actionların viewlarını ekliyoruz.
+    5.15. YazdÃ½Ã°Ã½mÃ½z bu actionlarÃ½n viewlarÃ½nÃ½ ekliyoruz.
 
     @{
     ViewData["Title"] = "Details";
@@ -1124,7 +1124,7 @@
 
 @await Component.InvokeAsync("ProfileSummary", new { UserName = @ViewBag.userName })
 
-    5.16. Followers methodunun View'ı yazılır ve get-userlist isminde js dosyası açılarak script kod yazılır.
+    5.16. Followers methodunun View'Ã½ yazÃ½lÃ½r ve get-userlist isminde js dosyasÃ½ aÃ§Ã½larak script kod yazÃ½lÃ½r.
 
     
 @{
@@ -1197,7 +1197,7 @@ function loadUserResults(pageIndex, userName, controllerName, actionName) {
  </li>
  */
 
-    5.17. site.js açılarak Follow işlemi için fonksiyon yazılır.
+    5.17. site.js aÃ§Ã½larak Follow iÃ¾lemi iÃ§in fonksiyon yazÃ½lÃ½r.
 
     import { error } from "jquery";
 
