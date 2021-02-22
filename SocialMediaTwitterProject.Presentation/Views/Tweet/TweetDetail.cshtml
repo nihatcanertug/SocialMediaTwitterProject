@@ -1,0 +1,37 @@
+﻿@model TweetDetailVm
+@{
+    ViewData["Title"] = "TweetDetail";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="panel-title">Tweet Details</h3>
+    </div>
+    <div class="card-body">
+
+        <ul class="list-group-item">
+            <li>
+                <div class="form-group">
+                    <img src="@Model.UserImage" alt="" />
+                    <a asp-controller="Profile" asp-action="Detail" asp-route-userName="@Model.UserName">@Model.Name</a> @Model.UserName
+                </div>
+                <div class="activity__list__body entry-content">
+                    <p>
+                        @Model.Text
+                    </p>
+                    @if (Model.ImagePath != null)
+                    {
+                        <ul class="gallery"><li><img src=@Model.ImagePath alt="" /></li></ul>
+                    }
+                </div>
+
+            </li>
+
+
+        </ul>
+
+
+    </div>
+</div>
+
+

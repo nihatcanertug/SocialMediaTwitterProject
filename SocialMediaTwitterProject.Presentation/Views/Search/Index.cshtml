@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card">
+    <div class="card-header">
+        Search Result
+    </div>
+    <div class="card-body">
+        <ul class="list-group" id="UserResult">
+        </ul>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var userName = '@(ViewBag.SearchKeyword)';
+        var controllerName = '@(ViewContext.RouteData.Values["Controller"].ToString())';
+        var actionName = '@(ViewContext.RouteData.Values["Action"].ToString())'
+    </script>
+    <script src="~/js/get-userlist.js"></script>
+}
+
